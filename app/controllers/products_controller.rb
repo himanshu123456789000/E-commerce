@@ -21,7 +21,6 @@ class ProductsController < ApplicationController
     end
   
     def destroy
-      debugger
       if @product.user_id == current_user.id
         @product.destroy 
         render json:  {message: "product destroyed Successfully" }, status: :ok 
@@ -31,7 +30,6 @@ class ProductsController < ApplicationController
     end
   
     def update
-      debugger
       if current_user.id == @product.user_id
         @product.update(product_params)
         render json: @product

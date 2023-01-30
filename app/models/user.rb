@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   # before_save { self.email = email.downcase }
+  has_one :cart
   has_many :products, dependent: :destroy
   has_secure_password
   validates :name, presence: true

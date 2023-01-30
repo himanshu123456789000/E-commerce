@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_request, only: [:create]
+  after_action :create_cart, only: [:create]
 	def index
     current_user
 		@users =User.all
@@ -18,6 +19,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      $user_id = @user.id
       render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
