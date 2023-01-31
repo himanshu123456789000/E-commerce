@@ -1,24 +1,22 @@
 class CartItemsController < ApplicationController
 
     def index
-        @cart = current_user.cart.cart_items
-        render json: @cart ,status: :ok
+        cart_item = current_user.cart.cart_items
+        render json: cart_item ,status: :ok
     end
 
     def create
-        @cart = CartItem.new(cart_item_params)
-        user = current_user.cart
-        @cart.cart_id = user.id
-        @cart.count = 1
-        @cart.save
+        cart_item = CartItem.new(cart_item_params)
+        cart = current_user.cart
+        cart_item.cart_id = cart.id
+        cart_item.save
         render json: { message: "cart item added"} ,status: :ok
     end
 
     def update
-        @cart_item = CartItem.find(params[:id])
-        debugger
-        @cart_item.update(cart_item_params)
-        render json: @cart_item, status: :ok
+        cart_item = CartItem.find(params[:id])
+        cart_item.update(cart_item_params)
+        render json: cart_item, status: :ok
     end
 
     private
