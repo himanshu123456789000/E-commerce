@@ -7,10 +7,10 @@ class ApplicationController < ActionController::API
   end 
 
   private 
-   def authenticate_request
-    header = request.headers["token"]
-    header = header.split(" ").last if header 
-    decoded = jwt_decode(header)
-    $current_user = User.find(decoded[:user_id])
-   end 
+    def authenticate_request
+      header = request.headers["token"]
+      header = header.split(" ").last if header 
+      decoded = jwt_decode(header)
+      $current_user = User.find(decoded[:user_id])
+    end 
 end
