@@ -1,8 +1,8 @@
 class CartItemsController < ApplicationController
 
     def index
-        cart_item = current_user.cart.cart_items
-        render json: cart_item ,status: :ok
+        cart_items = current_user.cart.cart_items
+        render json: cart_items ,status: :ok
     end
 
     def create
@@ -10,7 +10,7 @@ class CartItemsController < ApplicationController
         cart = current_user.cart
         cart_item.cart_id = cart.id
         cart_item.save
-        render json: { message: "cart item added"} ,status: :ok
+        render json: { message: "Cart item added"} ,status: :ok
     end
 
     def update
