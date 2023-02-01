@@ -13,14 +13,6 @@ class ApplicationController < ActionController::API
     decoded = jwt_decode(header)
     $current_user = User.find(decoded[:user_id])
    end
-
-   def create_cart
-    @cart = Cart.new()
-    @cart.user_id = $user_id
-    @cart.save
-    render json: { message: "cart created"} ,status: :ok
-  end
-
    
 end
 

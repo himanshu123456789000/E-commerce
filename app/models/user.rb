@@ -1,10 +1,13 @@
 class User < ApplicationRecord
-  # before_save { self.email = email.downcase }
+  after_create :create_cart
+  
   has_many :orders
   has_one :cart
   has_many :products, dependent: :destroy
   has_many :addresses
+
   has_secure_password
+
   validates :name, presence: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
@@ -13,7 +16,12 @@ class User < ApplicationRecord
   VALID_GENDERS = ['male', 'female', 'trans']
   validates :gender, inclusion: { in: VALID_GENDERS }
 
-  VALID_ROLES = ['user', 'seller']
+  VALID_ROLES = ['buyer', 'seller']
   validates :role, inclusion: { in: VALID_ROLES }
   
+  private
+
+  def create_cart
+    Cart.create(user_id: self.id)
+  end
 end

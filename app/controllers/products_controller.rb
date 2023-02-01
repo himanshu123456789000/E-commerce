@@ -1,13 +1,20 @@
 class ProductsController < ApplicationController
-    before_action :set_product, only: [:show, :destroy, :update]
-  
+    before_action :require_buyer, only: [:index]
+    before_action :require_seller, only: [:show, :create, :destroy, :update]
+
     def index
       products = Product.all
       render json: products
     end
-    def show 
-      product = Product.find(params[:id])
-      render json: product
+    
+    def show
+      user_id = current_user.id
+      products = Product.where(user_id: user_id)
+      if products == []
+        render json: { message: "No product found" }
+      else
+        render json: products
+      end
     end
   
     def create
@@ -21,6 +28,7 @@ class ProductsController < ApplicationController
     end
   
     def destroy
+      @product = Product.find(params[:id])
       if @product.user_id == current_user.id
         @product.destroy 
         render json:  {message: "product destroyed Successfully" }, status: :ok 
@@ -30,6 +38,7 @@ class ProductsController < ApplicationController
     end
   
     def update
+      @product = Product.find(params[:id])
       if current_user.id == @product.user_id
         @product.update(product_params)
         render json: @product
@@ -43,8 +52,16 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:name, :details, :price, :user_id)
     end
-  
-    def set_product
-      @product = Product.find(params[:id])
+
+    def require_buyer
+      unless current_user.role == "buyer"
+        render json: {error: "You don't have access" }, status: :unauthorized
+      end
+    end
+
+    def require_seller
+      unless current_user.role == "seller"
+        render json: {error: "You don't have access" }, status: :unauthorized
+      end
     end
 end

@@ -1,6 +1,5 @@
 class AddressesController < ApplicationController
     def create
-        debugger
         address = Address.new(address_params)
         address.user_id = current_user.id
         if address.save
