@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_request, only: [:create]
-  after_action :create_cart, only: [:create]
 	def index
     current_user
 		@users =User.all
