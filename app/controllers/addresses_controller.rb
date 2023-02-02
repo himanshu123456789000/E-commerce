@@ -1,4 +1,6 @@
 class AddressesController < ApplicationController
+  skip_before_action :check_access
+  
   def create
     if current_user.role == 'buyer'
       address = Address.new(address_params)

@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_072835) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "product_id", null: false
+    t.integer "user_id", null: false
     t.integer "cart_id", null: false
     t.integer "address_id", null: false
     t.datetime "created_at", null: false
@@ -48,7 +48,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_072835) do
     t.string "transaction_id"
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["cart_id"], name: "index_orders_on_cart_id"
-    t.index ["product_id"], name: "index_orders_on_product_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -79,6 +79,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_01_072835) do
   add_foreign_key "carts", "users"
   add_foreign_key "orders", "addresses"
   add_foreign_key "orders", "carts"
-  add_foreign_key "orders", "products"
+  add_foreign_key "orders", "users"
   add_foreign_key "products", "users"
 end

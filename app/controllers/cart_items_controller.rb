@@ -1,4 +1,5 @@
 class CartItemsController < ApplicationController
+  before_action :set_cart_item, only: [:update, :destroy]
 
   def index
     cart_items = current_user.cart.cart_items
@@ -14,14 +15,30 @@ class CartItemsController < ApplicationController
   end
 
   def update
-    cart_item = CartItem.find(params[:id])
-    cart_item.update(cart_item_params)
-    render json: cart_item, status: :ok
+    if @cart_item.user_id == current_user.id
+      @cart_item.update(cart_item_params)
+      render json: @cart_item, status: :ok
+    else
+      render json:  {message: "You can't destroy others items" }, status: :unauthorized
+    end
   end
+
+  def destroy
+    if @cart_item.user_id == current_user.id
+      @cart_item.destroy 
+      render json:  {message: "item destroyed Successfully" }, status: :ok 
+    else
+      render json:  {message: "You can't destroy others items" }, status: :unauthorized
+    end
+
 
   private
 
   def cart_item_params
     params.require(:cart_item).permit!
+  end
+
+  def set_cart_item
+    @cart_item = CartItem.find(params[:id])
   end
 end

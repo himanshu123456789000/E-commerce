@@ -12,7 +12,7 @@ class User < ApplicationRecord
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
-  
+
   validates :password, presence: true, length: { minimum: 3 }
 
   VALID_GENDERS = ['male', 'female', 'trans']
@@ -24,6 +24,14 @@ class User < ApplicationRecord
   private
 
   def create_cart
-    Cart.create(user_id: self.id)
+    Cart.create(user_id: self.id) if buyer?
+  end
+
+  def seller?
+    self.role == 'seller'
+  end
+
+  def buyer?
+    self.role == 'buyer' 
   end
 end

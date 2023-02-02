@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
-
   skip_before_action :authenticate_request
+  skip_before_action :check_access
+  
   def new
   end
   
