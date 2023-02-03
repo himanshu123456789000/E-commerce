@@ -1,0 +1,11 @@
+buyer:
+  cart_items: ['create', 'index']
+  # product: ['index']
+  # order: []
+  # address: []
+
+seller:
+  cart_items: ['index']
+  # product: ['index', 'create', 'destroy', 'update']
+  # order: []
+  # address: []
