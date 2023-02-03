@@ -2,10 +2,10 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_request, only: [:create]
   skip_before_action :check_access
   
-	def index
-		@users =User.all
-		render json: {user: @users, current_user: current_user , status: :ok , message: "User found successfully" }
-	end
+  def index
+    @users =User.all
+    render json: {user: @users, current_user: current_user , status: :ok , message: "User found successfully" }
+  end
 
   def show
     @user = User.find(params[:id])
