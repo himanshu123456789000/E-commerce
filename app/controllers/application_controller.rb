@@ -10,6 +10,7 @@ class ApplicationController < ActionController::API
   def check_access
     default_roles = YAML.load(File.read(Rails.root.to_s + '/config/roles.yml'))
     permission = default_roles[current_user.role][params[:controller]]
+    debugger
     unless permission.include?(params[:action])
        render json: {error: "You are not seller" }, status: :unauthorized
     end

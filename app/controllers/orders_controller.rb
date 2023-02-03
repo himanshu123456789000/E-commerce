@@ -1,14 +1,14 @@
 class OrdersController < ApplicationController
-	skip_before_action :check_access
+  skip_before_action :check_access
 
-	def index
-		# user_id = current_user.id
-		# product = Product.where(user_id: user_id)
-		orders = Order.where() 
-	end
+  def index
+    # user_id = current_user.id
+    # product = Product.where(user_id: user_id)
+    orders = Order.where() 
+  end
 
-	def create
-		order = Order.new(order_params)
+  def create
+    order = Order.new(order_params)
     order.user_id = current_user.id
     cart = User.find(current_user.id).cart
     order.cart_id = cart.id
@@ -18,10 +18,20 @@ class OrdersController < ApplicationController
     else
       render json: {order: order.errors.messages, message: "Sorry you order can't be added"}, status: :unprocessable_entity
     end
-	end
+  end
 
-	private
-	def order_params
+  def update
+    order = Order.find(params[:id])
+    if order.user_id == current_user.id
+      order.update(order_params)
+      render json: order, status: :ok
+    else
+      render json:  {message: "You can't destroy others items" }, status: :unauthorized
+    end
+  end
+
+  private
+  def order_params
     params.require(:order).permit!
   end
 end
