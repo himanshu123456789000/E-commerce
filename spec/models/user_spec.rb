@@ -12,7 +12,6 @@ RSpec.describe User, type: :model do
     # it { should allow_value("test@gmail.com").for(:email)}
 
     it "requires a user" do
-      debugger
       user = FactoryBot.create(:user)
       expect(user).to be_valid
     end
