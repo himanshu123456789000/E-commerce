@@ -7,6 +7,9 @@ require 'shoulda/matchers'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 require 'factories/users'
+require 'factories/products'
+require 'factories/cart_items'
+# require 'factories/carts'
 
 # Previous content of test helper now starts here
 # Add additional requires below this line. Rails is not loaded until this point!

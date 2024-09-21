@@ -5,7 +5,7 @@ FactoryBot.define do
     password { SecureRandom.hex(3) }
     DOB { Date.today }
     gender { ['male', 'female'].sample }
-    role { ['buyer', 'seller'].sample }
+    role { ['buyer'].sample }
     contact { "#{SecureRandom.random_number(9e9).to_i}" }
   end
 end
